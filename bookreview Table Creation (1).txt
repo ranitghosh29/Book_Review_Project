@@ -1,0 +1,49 @@
+mysql> use bookreview;
+Database changed
+
+mysql> create table book (book_id int primary key, title varchar(255) not null, author varchar(255) not null, genre varchar(100),publisher varchar(30), published_year int, description text);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc book;
++----------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| Field          | Type         | Null | Key | Default           | Extra                                         |
++----------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| book_id        | int          | NO   | PRI | NULL              |                                               |
+| title          | varchar(255) | NO   |     | NULL              |                                               |
+| author         | varchar(255) | NO   |     | NULL              |                                               |
+| genre          | varchar(100) | YES  |     | NULL              |                                               |
+| publisher      | varchar(30)  | YES  |     | NULL              |                                               |
+| published_year | int          | YES  |     | NULL              |                                               |
+| description    | text         | YES  |     | NULL              |                                               |
++----------------+--------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.00 sec)
+
+mysql> create table user (user_id int primary key, username varchar(100) not null unique, email varchar(255) not null unique, password varchar(255) not null, bio text);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc user;
++------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| Field      | Type         | Null | Key | Default           | Extra                                         |
++------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| user_id    | int          | NO   | PRI | NULL              |                                               |
+| username   | varchar(100) | NO   | UNI | NULL              |                                               |
+| email      | varchar(255) | NO   | UNI | NULL              |                                               |
+| password   | varchar(255) | NO   |     | NULL              |                                               |
+| bio        | text         | YES  |     | NULL              |                                               |
++------------+--------------+------+-----+-------------------+-----------------------------------------------+
+5 rows in set (0.00 sec)
+
+mysql> create table review (review_id int primary key, book_id int not null, user_id int not null, review_text text, rating int check (rating between 1 and 5), foreign key (book_id) references book(book_id) on delete cascade, foreign key (user_id) references user(user_id) on delete cascade);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc review;
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| review_id   | int  | NO   | PRI | NULL    |       |
+| book_id     | int  | NO   | MUL | NULL    |       |
+| user_id     | int  | NO   | MUL | NULL    |       |
+| review_text | text | YES  |     | NULL    |       |
+| rating      | int  | NO   |     | NULL    |       |
++-------------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
